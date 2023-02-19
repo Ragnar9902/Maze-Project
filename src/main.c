@@ -118,22 +118,6 @@ void          calc_wall_height(t_raycaster *rc)
     rc->draw_end = WIN_Y - 1;
 }
 
-void          draw_vert_line(t_sdl *sdl, t_raycaster *rc, int x)
-{
-  SDL_Color   color;
-  
-  color = apply_night_effect(select_wall_color(rc->map_x, rc->map_y), rc->perp_wall_dist);
-
-  if (rc->side == 1)
-  {
-    color.r /= 2;
-    color.g /= 2;
-    color.b /= 2;
-  }
-  SDL_SetRenderDrawColor(sdl->renderer, color.r, color.g, color.b, SDL_ALPHA_OPAQUE);
-  SDL_RenderDrawLine(sdl->renderer, x, rc->draw_start, x, rc->draw_end);
-
-}
 
 void          render_frame(t_sdl *sdl)
 {
@@ -147,34 +131,34 @@ int           handle_events(t_raycaster *rc)
   SDL_Event   event;
   double      oldDirX;
   double      oldPlaneX;
-
+  const Uint8 *keyboard_state_array = SDL_GetKeyboardState(NULL);
   while (SDL_PollEvent(&event))
   {
-    if (event.type == SDL_QUIT)
-      return (-1);
-    if (event.type == SDL_KEYDOWN)
+
+    if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP)
     {
-      if (event.key.keysym.sym == SDLK_w)
+      // Move centerpoint of rotation for one of the trees:
+      if (keyboard_state_array[SDL_SCANCODE_W] && !(keyboard_state_array[SDL_SCANCODE_S]))
       {
         if(worldMap[(int)(rc->player_pos_x + rc->player_dir_x * MV_SPEED)][(int)(rc->player_pos_y)] == 0) rc->player_pos_x += rc->player_dir_x * MV_SPEED;
         if(worldMap[(int)(rc->player_pos_x)][(int)(rc->player_pos_y + rc->player_dir_y * MV_SPEED)] == 0) rc->player_pos_y += rc->player_dir_y * MV_SPEED;
       }
-      if (event.key.keysym.sym == SDLK_s)
+      else if (!keyboard_state_array[SDL_SCANCODE_W] && keyboard_state_array[SDL_SCANCODE_S])
       {
         if(worldMap[(int)(rc->player_pos_x - rc->player_dir_x * MV_SPEED)][(int)(rc->player_pos_y)] == 0) rc->player_pos_x -= rc->player_dir_x * MV_SPEED;
         if(worldMap[(int)(rc->player_pos_x)][(int)(rc->player_pos_y - rc->player_dir_y * MV_SPEED)] == 0) rc->player_pos_y -= rc->player_dir_y * MV_SPEED;
       }
-      if (event.key.keysym.sym == SDLK_d)
+
+      if (keyboard_state_array[SDL_SCANCODE_D] && !keyboard_state_array[SDL_SCANCODE_A])
       {
         double newX_dir = 0;
         double newY_dir = 0;
         newY_dir = rc->player_dir_x;
         newX_dir = -rc->player_dir_y;
         if(worldMap[(int)(rc->player_pos_x - newX_dir * MV_SPEED)][(int)(rc->player_pos_y)] == 0) rc->player_pos_x -= newX_dir * MV_SPEED;
-        
         if(worldMap[(int)(rc->player_pos_x)][(int)(rc->player_pos_y - newY_dir * MV_SPEED)] == 0) rc->player_pos_y -= newY_dir * MV_SPEED;
       }
-      if (event.key.keysym.sym == SDLK_a)
+      else if (!keyboard_state_array[SDL_SCANCODE_D] && keyboard_state_array[SDL_SCANCODE_A])
       {
         double newX_dir = 0;
         double newY_dir = 0;
@@ -183,7 +167,7 @@ int           handle_events(t_raycaster *rc)
         if(worldMap[(int)(rc->player_pos_x - newX_dir * MV_SPEED)][(int)(rc->player_pos_y)] == 0) rc->player_pos_x -= newX_dir * MV_SPEED;
         if(worldMap[(int)(rc->player_pos_x)][(int)(rc->player_pos_y - newY_dir * MV_SPEED)] == 0) rc->player_pos_y -= newY_dir * MV_SPEED;
       }
-      if (event.key.keysym.sym == SDLK_RIGHT)
+      if (keyboard_state_array[SDL_SCANCODE_RIGHT] && !keyboard_state_array[SDL_SCANCODE_LEFT])
       {
         oldDirX = rc->player_dir_x;
         rc->player_dir_x = rc->player_dir_x * cos(-ROT_SPEED) - rc->player_dir_y * sin(-ROT_SPEED);
@@ -191,8 +175,7 @@ int           handle_events(t_raycaster *rc)
         oldPlaneX = rc->player_plane_x;
         rc->player_plane_x = rc->player_plane_x * cos(-ROT_SPEED) - rc->player_plane_y * sin(-ROT_SPEED);
         rc->player_plane_y = oldPlaneX * sin(-ROT_SPEED) + rc->player_plane_y * cos(-ROT_SPEED);
-      }
-      if (event.key.keysym.sym == SDLK_LEFT)
+      }else if (!keyboard_state_array[SDL_SCANCODE_RIGHT] && keyboard_state_array[SDL_SCANCODE_LEFT])
       {
         oldDirX = rc->player_dir_x;
         rc->player_dir_x = rc->player_dir_x * cos(ROT_SPEED) - rc->player_dir_y * sin(ROT_SPEED);
@@ -202,6 +185,9 @@ int           handle_events(t_raycaster *rc)
         rc->player_plane_y = oldPlaneX * sin(ROT_SPEED) + rc->player_plane_y * cos(ROT_SPEED);
       }
     }
+    if (event.type == SDL_QUIT)
+      return (-1);
+    
   }
   return (0);
 }
@@ -220,6 +206,7 @@ void          raycaster(t_sdl *sdl, t_raycaster *rc)
       calc_wall_height(rc);
       draw_vert_line(sdl, rc, x);
     }
+    miniMap(sdl, 1700, 1100, rc);
     render_frame(sdl);
     if (handle_events(rc) != 0)
       done = SDL_TRUE;

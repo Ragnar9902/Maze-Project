@@ -27,6 +27,22 @@ SDL_Color     select_wall_color(int map_x, int map_y)
   return (color);
 }
 
+int  hexa_wall_color(int map)
+{
+  int color; 
+  if (map == 1)
+    color = RED;
+  else if (map == 2)
+    color = GREEN;
+  else if (map == 3)
+    color = BLUE;
+  else if (map == 4)
+    color = WHITE;
+  else
+    color = BLACK;
+  return (color);
+}
+
 SDL_Color     apply_night_effect(SDL_Color color, double distance)
 {
   if (color.r/distance * AMB_LIGHT <= color.r)

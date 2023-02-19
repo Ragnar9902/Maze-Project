@@ -17,10 +17,10 @@
 extern int worldMap[mapWidth][mapHeight];
 
 // Initial values
-#define WIN_X           3000
-#define WIN_Y           2000
-#define INIT_P_POS_X    22
-#define INIT_P_POS_Y    12
+#define WIN_X           2000
+#define WIN_Y           1200
+#define INIT_P_POS_X    23
+#define INIT_P_POS_Y    10
 #define INIT_P_DIR_X    -1
 #define INIT_P_DIR_Y    0
 #define INIT_P_PLANE_X  0
@@ -28,6 +28,8 @@ extern int worldMap[mapWidth][mapHeight];
 #define MV_SPEED        0.199
 #define ROT_SPEED       0.1745
 #define AMB_LIGHT       7
+#define MINI_MAP_CELL   10    
+#define PI              3.14159265358979323846
 
 // Colors
 #define WHITE           0xFFFFFF
@@ -65,11 +67,18 @@ typedef struct      s_raycaster
   int             draw_start;
   int             draw_end;
   double          perp_wall_dist;
+  int             player_color;
 } t_raycaster;
 
 // Proto
 SDL_Color convert_color(int hexa_value);
 SDL_Color select_wall_color(int map_x, int map_y);
 SDL_Color apply_night_effect(SDL_Color color, double distance);
+void draw_incli_line(t_sdl *sdl, int x, int y, int h, double dir, int hexa_code);
+void draw_square(t_sdl *sdl, int x, int y, size_t l, int hexa_code);
+void draw_vert_line(t_sdl *sdl, t_raycaster *rc, int x);
+void miniMap(t_sdl *sdl, int x, int y, t_raycaster *rc);
+int  hexa_wall_color(int map);
+void draw_triangle(t_sdl * sdl, int x, int y, size_t h, int w, double dir , int hexa_code);
 
 #endif /* !RAYCASTER_H_ */
