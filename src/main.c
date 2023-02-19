@@ -206,7 +206,7 @@ void          raycaster(t_sdl *sdl, t_raycaster *rc)
       calc_wall_height(rc);
       draw_vert_line(sdl, rc, x);
     }
-    miniMap(sdl, 1700, 1100, rc);
+    miniMap(sdl, MINI_MAP_X, MINI_MAP_Y, rc);
     render_frame(sdl);
     if (handle_events(rc) != 0)
       done = SDL_TRUE;
