@@ -40,8 +40,6 @@ WSL 2 enables Linux GUI applications to feel native and natural to use on Window
 * Cut + Paste across Windows and Linux apps
 * You can now integrate both Windows and Linux applications into your workflow for a seamless desktop experience.
 
-[![wsl-gui-screenshot.png](https://i.postimg.cc/nLw0MCKL/wsl-gui-screenshot.png)](https://postimg.cc/2qh4KjKp)
-
 ## Setup
 
 - Make sure that SDL2 libraries are installed on your computer
