@@ -1,6 +1,6 @@
 # C/SDL2 Raycaster (Untextured)
 
-Quick implementation of [Lode's Raycaster Tutorial](https://lodev.org/cgtutor/raycasting.html) in C using SDL2. 
+Quick implementation of [Lode's Raycaster Tutorial](https://lodev.org/cgtutor/raycasting.html) in C using SDL2.
 
 ## Setup
 
