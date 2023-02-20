@@ -1,6 +1,6 @@
 # Maze project
 
-## Background Context 
+## Background Context
 The goal of this project is to create a game in 3D using raycasting with the C programming language using SDL2.
 
 ## Installation
@@ -11,11 +11,11 @@ Ensure you have both gcc and make installed on your system. Once done, install S
 Installing gcc and make with the build-essential metapackage:
 
     sudo apt install build-essential
-  
+
 Installing SDL2 and SDL2_gfx:
 
     sudo apt install libsdl2-2.0-0 libsdl2-dev libsdl2-gfx-1.0-0 libsdl2-gfx-dev
-    
+
 ### Install support for Linux GUI apps
 
 You will need to be on Windows 10 Build 19044+ or Windows 11 to access this feature.
@@ -29,7 +29,7 @@ To run Linux GUI apps, you should first install the driver matching your system 
   [AMD GPU driver for WSL](https://www.amd.com/en/support/kb/release-notes/rn-rad-win-wsl-support)
 
   [NVIDIA GPU driver for WSL](https://developer.nvidia.com/cuda/wsl)
-  
+
   Windows Subsystem for Linux (WSL) now supports running Linux GUI applications (X11 and Wayland) on Windows in a fully integrated desktop experience.
 
 WSL 2 enables Linux GUI applications to feel native and natural to use on Windows.
@@ -53,7 +53,7 @@ WSL 2 enables Linux GUI applications to feel native and natural to use on Window
      * make fclean : Remove all the object files + the executable file
      * make re : Recompile everything (even the unmodified files)
 
-- Launch the project with 
+- Launch the project with
 
       ./maze
 
@@ -68,11 +68,11 @@ This Raycaster uses the following inputs:
 
 ## Team Members:
 
-* Juan Pablo Lopez
+* Juan Pablo Lopera
 * Jesus Macias
 * Santiago Arias
 
-## Support Link: 
+## Support Link:
  - [Installing SDL](https://wiki.libsdl.org/SDL2/Installation)
  - [Raycasting](https://lodev.org/cgtutor/raycasting.html)
  - [Lesson 01 - Setup & Windowing](https://thenumb.at/cpp-course/sdl2/01/01.html)
