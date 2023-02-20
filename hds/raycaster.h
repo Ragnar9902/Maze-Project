@@ -29,8 +29,8 @@ extern int worldMap[mapWidth][mapHeight];
 #define ROT_SPEED 0.1745
 #define AMB_LIGHT 7
 #define MINI_MAP_CELL 10
-#define MINI_MAP_X WIN_X - 300
-#define MINI_MAP_Y WIN_Y - 150
+#define MINI_MAP_X WIN_X - 280
+#define MINI_MAP_Y WIN_Y - 50
 #define PI 3.14159265358979323846
 
 // Colors
