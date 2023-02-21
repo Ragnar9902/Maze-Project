@@ -30,6 +30,7 @@ SDL_Color select_wall_color(int map_x, int map_y)
 int hexa_wall_color(int map)
 {
 	int color;
+
 	if (map == 1)
 		color = RED;
 	else if (map == 2)

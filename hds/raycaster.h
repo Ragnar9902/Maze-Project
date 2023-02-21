@@ -88,12 +88,12 @@ SDL_Color convert_color(int hexa_value);
 SDL_Color select_wall_color(int map_x, int map_y);
 SDL_Color apply_night_effect(SDL_Color color, double distance);
 void draw_incli_line(t_sdl *sdl, int x, int y, int h, double dir,
-int hexa_code);
+					 int hexa_code);
 void draw_square(t_sdl *sdl, int x, int y, size_t l, int hexa_code);
 void draw_vert_line(t_sdl *sdl, t_raycaster *rc, int x);
 void miniMap(t_sdl *sdl, int x, int y, t_raycaster *rc);
 int hexa_wall_color(int map);
 void draw_triangle(t_sdl *sdl, int x, int y, size_t h, int w, double dir,
-int hexa_code);
+				   int hexa_code);
 
 #endif /* !RAYCASTER_H_ */
