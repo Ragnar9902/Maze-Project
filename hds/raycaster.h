@@ -1,22 +1,22 @@
-/*
-** raycaster.h
-*/
-
 #ifndef RAYCASTER_H_
 #define RAYCASTER_H_
 
-// System includes
+/**
+ * raycaster.h
+ */
+
+/** System includes */
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <math.h>
 
-// Map
+/** Map */
 #define mapWidth 24
 #define mapHeight 24
 
 extern int worldMap[mapWidth][mapHeight];
 
-// Initial values
+/** Initial values */
 #define WIN_X 1280
 #define WIN_Y 720
 #define INIT_P_POS_X 23
@@ -33,14 +33,14 @@ extern int worldMap[mapWidth][mapHeight];
 #define MINI_MAP_Y WIN_Y - 50
 #define PI 3.14159265358979323846
 
-// Colors
+/** Colors */
 #define WHITE 0xFFFFFF
 #define RED 0xFF0000
 #define GREEN 0x00FF00
 #define BLUE 0x0000FF
 #define BLACK 0x000000
 
-// Structures
+/** Structures */
 typedef struct s_sdl
 {
 	SDL_Window *window;
@@ -49,15 +49,14 @@ typedef struct s_sdl
 
 typedef struct s_sprite
 {
-  /* data */
-  double sprite_pos_x;
-  double sprite_pos_y;
-  int    id;
-  double sprite_dir_x;
-  double sprite_dir_y;
+	/* Data */
+	double sprite_pos_x;
+	double sprite_pos_y;
+	int id;
+	double sprite_dir_x;
+	double sprite_dir_y;
 
-}t_sprite;
-
+} t_sprite;
 
 typedef struct s_raycaster
 {
@@ -84,15 +83,17 @@ typedef struct s_raycaster
 	int player_color;
 } t_raycaster;
 
-// Proto
+/** Proto */
 SDL_Color convert_color(int hexa_value);
 SDL_Color select_wall_color(int map_x, int map_y);
 SDL_Color apply_night_effect(SDL_Color color, double distance);
-void draw_incli_line(t_sdl *sdl, int x, int y, int h, double dir, int hexa_code);
+void draw_incli_line(t_sdl *sdl, int x, int y, int h, double dir,
+int hexa_code);
 void draw_square(t_sdl *sdl, int x, int y, size_t l, int hexa_code);
 void draw_vert_line(t_sdl *sdl, t_raycaster *rc, int x);
 void miniMap(t_sdl *sdl, int x, int y, t_raycaster *rc);
 int hexa_wall_color(int map);
-void draw_triangle(t_sdl *sdl, int x, int y, size_t h, int w, double dir, int hexa_code);
+void draw_triangle(t_sdl *sdl, int x, int y, size_t h, int w, double dir,
+int hexa_code);
 
 #endif /* !RAYCASTER_H_ */
