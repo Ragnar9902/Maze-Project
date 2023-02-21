@@ -6,7 +6,7 @@ SDL_Color convert_color(int hexa_value)
 
 	color.r = ((hexa_value >> 16) & 0xFF);
 	color.g = ((hexa_value >> 8) & 0xFF);
-	color.b = ((hexa_value)&0xFF);
+	color.b = ((hexa_value) & 0xFF);
 	return (color);
 }
 
