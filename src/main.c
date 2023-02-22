@@ -25,12 +25,15 @@ int init(t_sdl *sdl, t_raycaster *rc)
 {
 	sdl->window = NULL;
 	sdl->renderer = NULL;
+	sdl->width = WIN_X;
+	sdl->height = WIN_Y;
 	rc->player_pos_x = INIT_P_POS_X;
 	rc->player_pos_y = INIT_P_POS_Y;
 	rc->player_dir_x = INIT_P_DIR_X;
 	rc->player_dir_y = INIT_P_DIR_Y;
 	rc->player_plane_x = INIT_P_PLANE_X;
 	rc->player_plane_y = INIT_P_PLANE_Y;
+	
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
 		fprintf(stderr, "SDL initialization failed (%s)\n", SDL_GetError());
@@ -199,7 +202,7 @@ int handle_events(t_raycaster *rc)
 	return (0);
 }
 
-void raycaster(t_sdl *sdl, t_raycaster *rc)
+void raycaster(t_sdl *sdl, t_raycaster *rc, t_sprite *sp)
 {
 	SDL_bool done;
 
@@ -213,21 +216,27 @@ void raycaster(t_sdl *sdl, t_raycaster *rc)
 			calc_wall_height(rc);
 			draw_vert_line(sdl, rc, x);
 		}
+
 		miniMap(sdl, MINI_MAP_X, MINI_MAP_Y, rc);
+		init_sprite(sdl, sp);
+		draw_sprite(sdl, rc, sp);
 		render_frame(sdl);
 		if (handle_events(rc) != 0)
 			done = SDL_TRUE;
 	}
+	SDL_DestroyTexture(sp->texture);
+    SDL_FreeSurface(sp->surface);
 }
 
 int main()
 {
-	t_sdl sdl;
+	t_sdl       sdl;
 	t_raycaster rc;
+	t_sprite    sprite;
 
 	if (init(&sdl, &rc) != 0)
 		return (-1);
-	raycaster(&sdl, &rc);
+	raycaster(&sdl, &rc, &sprite);
 	if (sdl.renderer)
 		SDL_DestroyRenderer(sdl.renderer);
 	if (sdl.window)

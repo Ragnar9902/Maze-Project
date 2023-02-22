@@ -15,6 +15,8 @@ Installing gcc and make with the build-essential metapackage:
 Installing SDL2 and SDL2_gfx:
 
     sudo apt install libsdl2-2.0-0 libsdl2-dev libsdl2-gfx-1.0-0 libsdl2-gfx-dev
+    sudo apt install libsdl2-image-dev
+    sudo apt install libsdl2-image-dev
 
 ### Install support for Linux GUI apps
 

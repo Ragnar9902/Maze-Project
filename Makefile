@@ -6,7 +6,7 @@ SRC		=	./src/main.c	\
 			./src/color.c	\
 			./src/map.c     \
 			./src/geometry.c\
-			./src/sprite.c
+			./src/sprites.c
 
 NAME	=	maze
 
@@ -19,7 +19,7 @@ OBJ		=	$(SRC:.c=.o)
 CFLAGS	=	-O2 -W -Wall -Wextra -Werror
 CFLAGS	+=	-I./hds/
 
-LDLIBS	=	-lSDL2 -lm
+LDLIBS	=	-lSDL2 -lm -lSDL2_image
 
 all		:	$(NAME)
 

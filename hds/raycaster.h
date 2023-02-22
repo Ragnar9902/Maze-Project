@@ -7,6 +7,7 @@
 
 // System includes
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <stdio.h>
 #include <math.h>
 
@@ -45,17 +46,27 @@ typedef struct s_sdl
 {
 	SDL_Window *window;
 	SDL_Renderer *renderer;
+	double       width;
+	double       height;
 } t_sdl;
 
 typedef struct s_sprite
 {
   /* data */
-  double sprite_pos_x;
-  double sprite_pos_y;
+  double pos_x;
+  double pos_y;
+  double rel_pos_x;
+  double rel_pos_y;
+  double cam_pos_x;
+  double cam_pos_y;
   int    id;
-  double sprite_dir_x;
-  double sprite_dir_y;
-
+  double dir_x;
+  double dir_y;
+  SDL_Surface *surface;
+  SDL_Texture *texture;
+  double distance;
+  double width;
+  double height; 
 }t_sprite;
 
 
@@ -94,5 +105,8 @@ void draw_vert_line(t_sdl *sdl, t_raycaster *rc, int x);
 void miniMap(t_sdl *sdl, int x, int y, t_raycaster *rc);
 int hexa_wall_color(int map);
 void draw_triangle(t_sdl *sdl, int x, int y, size_t h, int w, double dir, int hexa_code);
+void init_sprite(t_sdl *sdl,t_sprite * sp);
+void draw_sprite(t_sdl *sdl, t_raycaster *rc, t_sprite *sp);
+
 
 #endif /* !RAYCASTER_H_ */
