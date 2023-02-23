@@ -6,7 +6,7 @@ int init_sprite(t_sdl *sdl,t_sprite * sp)
     SDL_Surface *surface;
     SDL_Texture *texture;
   // Load sprite image
-    surface = IMG_Load("/home/jesus/Maze-Project/images/hoja.jpeg");
+    surface = IMG_Load("/home/jesus/Maze-Project/images/dog.png");
     texture = SDL_CreateTextureFromSurface(sdl->renderer, surface);
     
     if (!surface) {
@@ -37,7 +37,7 @@ int init_sprite(t_sdl *sdl,t_sprite * sp)
     sp->pos_x = 20;
 	sp->pos_y = 11;
 	sp->id    = 0;
-    sp->width = 0.2;
+    sp->width = 2;
     sp->height = 1;
     return (0);
 }
@@ -73,15 +73,19 @@ void draw_sprite(t_sdl *sdl, t_raycaster *rc, t_sprite *sp)
     int sprite_screen_height = (int)(screen_height / distance * sprite_height);
     
     // Calculate the position of the sprite on the screen based on its angle and size
-    int sprite_screen_x = (int)((screen_width / 2) * (1 + sprite_angle / (M_PI / 2)) - sprite_screen_width / 2);
+    int sprite_screen_x = (int)((screen_width / 2) * (1 + sprite_angle / (PI / 2)) - sprite_screen_width / 2);
     int sprite_screen_y = (int)((screen_height / 2) - sprite_screen_height / 2);
-    
+    printf(",%d,%d,%d",sprite_screen_x, sprite_screen_width, sprite_screen_y);
     // Create a rectangle to represent the sprite on the screen
     SDL_Rect sprite_rect = { sprite_screen_x, sprite_screen_y, sprite_screen_width, sprite_screen_height };
     
     // Draw the sprite to the screen
-    if (SDL_RenderCopy(sdl->renderer, sp->texture, NULL, &sprite_rect) < 0) {
-        printf("Failed to render sprite: %s\n", SDL_GetError());
-        return;
+    if (fabs(sprite_angle) <= PI / 6)
+    {
+    
+        if (SDL_RenderCopy(sdl->renderer, sp->texture, NULL, &sprite_rect) < 0) {
+            printf("Failed to render sprite: %s\n", SDL_GetError());
+            return;
+        }
     }
 }

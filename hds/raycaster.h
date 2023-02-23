@@ -52,7 +52,6 @@ typedef struct s_sdl
 
 typedef struct s_sprite
 {
-<<<<<<< HEAD
   /* data */
   double pos_x;
   double pos_y;
@@ -69,16 +68,7 @@ typedef struct s_sprite
   double width;
   double height; 
 }t_sprite;
-=======
-	/* Data */
-	double sprite_pos_x;
-	double sprite_pos_y;
-	int id;
-	double sprite_dir_x;
-	double sprite_dir_y;
->>>>>>> 0335b9633db192e5c14555284af2f4703dd9e621
 
-} t_sprite;
 
 typedef struct s_raycaster
 {
@@ -115,14 +105,9 @@ void draw_square(t_sdl *sdl, int x, int y, size_t l, int hexa_code);
 void draw_vert_line(t_sdl *sdl, t_raycaster *rc, int x);
 void miniMap(t_sdl *sdl, int x, int y, t_raycaster *rc);
 int hexa_wall_color(int map);
-<<<<<<< HEAD
 void draw_triangle(t_sdl *sdl, int x, int y, size_t h, int w, double dir, int hexa_code);
 int init_sprite(t_sdl *sdl,t_sprite * sp);
 void draw_sprite(t_sdl *sdl, t_raycaster *rc, t_sprite *sp);
 
-=======
-void draw_triangle(t_sdl *sdl, int x, int y, size_t h, int w, double dir,
-				   int hexa_code);
->>>>>>> 0335b9633db192e5c14555284af2f4703dd9e621
 
 #endif /* !RAYCASTER_H_ */
