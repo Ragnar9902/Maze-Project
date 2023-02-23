@@ -5,10 +5,11 @@ int init_sprite(t_sdl *sdl,t_sprite * sp)
 {
     SDL_Surface *surface;
     SDL_Texture *texture;
+
   // Load sprite image
-    surface = IMG_Load("/home/jesus/Maze-Project/images/dog.png");
+    surface = IMG_Load(url_image);
     texture = SDL_CreateTextureFromSurface(sdl->renderer, surface);
-    
+
     if (!surface) {
         printf("Failed to load sprite image: %s\n", IMG_GetError());
         return (1);

@@ -41,6 +41,9 @@ extern int worldMap[mapWidth][mapHeight];
 #define BLUE 0x0000FF
 #define BLACK 0x000000
 
+/** Images */
+#define url_image ("/home/junx/Maze-Project/images/dog.png")
+
 /** Structures */
 typedef struct s_sdl
 {
@@ -66,7 +69,7 @@ typedef struct s_sprite
   SDL_Texture *texture;
   double distance;
   double width;
-  double height; 
+  double height;
 }t_sprite;
 
 
