@@ -5,7 +5,7 @@ int init_sprite(t_sdl *sdl,t_sprite * sp)
     SDL_Surface *surface;
     SDL_Texture *texture;
   // Load sprite image
-    surface = IMG_Load("/home/jesus/Maze-Project/src/sprite.png");
+    surface = IMG_Load("/home/jesus/Maze-Project/images/hoja.jpeg");
     texture = SDL_CreateTextureFromSurface(sdl->renderer, surface);
     
     if (!surface) {
@@ -33,13 +33,11 @@ int init_sprite(t_sdl *sdl,t_sprite * sp)
 
     // Update screen
     //SDL_RenderPresent(sdl->renderer);
-    sp->pos_x = 7;
-	sp->pos_y = 9;
-	sp->dir_x = 0;
-	sp->dir_y = 1;
+    sp->pos_x = 20;
+	sp->pos_y = 11;
 	sp->id    = 0;
-    sp->width = 0.5;
-    sp->height = 0.5;
+    sp->width = 0.2;
+    sp->height = 1;
     return (0);
 }
 
@@ -81,6 +79,9 @@ void draw_sprite(t_sdl *sdl, t_raycaster *rc, t_sprite *sp)
     SDL_Rect sprite_rect = { sprite_screen_x, sprite_screen_y, sprite_screen_width, sprite_screen_height };
     
     // Draw the sprite to the screen
-    SDL_RenderCopyEx(sdl->renderer, sp->texture, NULL, &sprite_rect, sprite_angle * 180 / M_PI, NULL, SDL_FLIP_NONE);
+    if (SDL_RenderCopy(sdl->renderer, sp->texture, NULL, &sprite_rect) < 0) {
+        printf("Failed to render sprite: %s\n", SDL_GetError());
+        return;
+    }
 }
 
