@@ -1,6 +1,6 @@
 #include "raycaster.h"
 
-<<<<<<< HEAD
+
 int init_sprite(t_sdl *sdl,t_sprite * sp)
 {
     SDL_Surface *surface;
@@ -85,7 +85,3 @@ void draw_sprite(t_sdl *sdl, t_raycaster *rc, t_sprite *sp)
         return;
     }
 }
-
-=======
-void draw_sprite(t_sprite *sp,);
->>>>>>> 0335b9633db192e5c14555284af2f4703dd9e621
