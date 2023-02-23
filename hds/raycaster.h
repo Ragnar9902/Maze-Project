@@ -19,7 +19,7 @@ extern int worldMap[mapWidth][mapHeight];
 /** Initial values */
 #define WIN_X 1280
 #define WIN_Y 720
-#define INIT_P_POS_X 23
+#define INIT_P_POS_X 22
 #define INIT_P_POS_Y 10
 #define INIT_P_DIR_X -1
 #define INIT_P_DIR_Y 0

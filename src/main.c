@@ -1,26 +1,5 @@
 #include "raycaster.h"
 
-int cuadran(double dirx, double diry)
-{
-	if ((dirx >= 0) & (diry >= 0))
-	{
-		return (1);
-	}
-	if ((dirx > 0) & (diry < 0))
-	{
-		return (2);
-	}
-	if ((dirx <= 0) & (diry <= 0))
-	{
-		return (3);
-	}
-	if ((dirx < 0) & (diry > 0))
-	{
-		return (4);
-	}
-	return (0);
-}
-
 int init(t_sdl *sdl, t_raycaster *rc)
 {
 	sdl->window = NULL;
