@@ -42,7 +42,7 @@ void draw_incli_line(t_sdl *sdl, int x, int y, int d,
  * @sdl: SDL Structure
  * @x: Minimap x with
  * @y: Minimap y height
- * @l: 
+ * @l:
  * @hexa_code: color of the walls
  */
 void draw_square(t_sdl *sdl, int x, int y, size_t l, int hexa_code)
