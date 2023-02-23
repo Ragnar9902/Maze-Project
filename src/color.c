@@ -1,5 +1,9 @@
 #include "raycaster.h"
-
+/**
+ * convert_color - converts a hexa value in color
+ * @hexa_value: value to be converted
+ * Return: SDL_Color after convertion
+ */
 SDL_Color convert_color(int hexa_value)
 {
 	SDL_Color color;
@@ -9,7 +13,12 @@ SDL_Color convert_color(int hexa_value)
 	color.b = ((hexa_value) & 0xFF);
 	return (color);
 }
-
+/**
+ * select_wall_color - Identify the color in the map
+ * @map_x: map value in x
+ * @map_y: map value in y
+ * Return: SDL_Color selected
+ */
 SDL_Color select_wall_color(int map_x, int map_y)
 {
 	SDL_Color color;
@@ -26,7 +35,11 @@ SDL_Color select_wall_color(int map_x, int map_y)
 		color = convert_color(BLACK);
 	return (color);
 }
-
+/**
+ * hexa_wall_color - minimap color selection
+ * @map: minimap matrix values
+ * Return: integer with minimap color
+ */
 int hexa_wall_color(int map)
 {
 	int color;
@@ -43,7 +56,12 @@ int hexa_wall_color(int map)
 		color = BLACK;
 	return (color);
 }
-
+/**
+ * apply_night_effect - apply a dar efect tor far walls
+ * @color: Color of the wall
+ * @distance: distance between player and wall
+ * Return: SDL_Color with night effect
+ */
 SDL_Color apply_night_effect(SDL_Color color, double distance)
 {
 	if (color.r / distance * AMB_LIGHT <= color.r)
