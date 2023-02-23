@@ -1,5 +1,10 @@
 #include "raycaster.h"
-
+/**
+ * init_sprite - initialize sprites
+ * @sdl: SDL stuccture
+ * @sp: Raycaster Structure
+ * Return: 0 if success 1 if failed
+ */
 int init_sprite(t_sdl *sdl, t_sprite *sp)
 {
 	SDL_Surface *surface;

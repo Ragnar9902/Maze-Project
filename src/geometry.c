@@ -1,5 +1,10 @@
 #include "raycaster.h"
-
+/**
+ * draw_vert_line - Draws vertical lines with color
+ * @sdl: SDL Structure
+ * @rc: Raycaster Structure
+ * @x: integer with widow x
+ */
 void draw_vert_line(t_sdl *sdl, t_raycaster *rc, int x)
 {
 	SDL_Color color;
@@ -32,7 +37,14 @@ void draw_incli_line(t_sdl *sdl, int x, int y, int d,
 					   x + (d / 2) * cos(dir * 2 * PI / 360),
 					   y - (d / 2) * sin(dir * 2 * PI / 360));
 }
-
+/**
+ * draw_square - Draws the minimap square
+ * @sdl: SDL Structure
+ * @x: Minimap x with
+ * @y: Minimap y height
+ * @l: 
+ * @hexa_code: color of the walls
+ */
 void draw_square(t_sdl *sdl, int x, int y, size_t l, int hexa_code)
 {
 	for (size_t i = 0; i < l; i++)
@@ -57,6 +69,13 @@ void draw_triangle(t_sdl *sdl, int x, int y, size_t h, int w,
 						dir - 90, hexa_code);
 	}
 }
+/**
+ * miniMap - minimap main fucnction
+ * @sdl: SDl Structure
+ * @x: integer with minimap x value
+ * @y: integer with minimap y value
+ * @rc: Raycaster Structure
+ */
 void miniMap(t_sdl *sdl, int x, int y, t_raycaster *rc)
 {
 	size_t wall_side = 10;

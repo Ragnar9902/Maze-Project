@@ -1,5 +1,10 @@
 #include "raycaster.h"
-
+/**
+ * init
+ * @sdl: SDL stuccture
+ * @rc: Raycaster Structure
+ * Return: 0 if success, -1 if fail
+ */
 int init(t_sdl *sdl, t_raycaster *rc)
 {
 	sdl->window = NULL;
@@ -26,7 +31,11 @@ int init(t_sdl *sdl, t_raycaster *rc)
 	}
 	return (0);
 }
-
+/**
+ * initial_calc - Sets the initial map and player position
+ * @rc: Raycaster Structure
+ * @x: Intger of x that incrises value till window in x limit
+ */
 void initial_calc(t_raycaster *rc, int x)
 {
 	double camera_x;
@@ -59,7 +68,10 @@ void initial_calc(t_raycaster *rc, int x)
 		rc->side_dist_y = (rc->map_y + 1.0 - rc->player_pos_y) * rc->delta_dist_y;
 	}
 }
-
+/**
+ * perform_dda - manages the hit of rays
+ * @rc: Raycaster structure
+ */
 void perform_dda(t_raycaster *rc)
 {
 	int hit;
@@ -83,7 +95,10 @@ void perform_dda(t_raycaster *rc)
 			hit = 1;
 	}
 }
-
+/**
+ * calc_wall_height - calculetes walls height
+ * @rc: Raycaster structure
+ */
 void calc_wall_height(t_raycaster *rc)
 {
 	int line_height;
@@ -210,7 +225,12 @@ int handle_events(t_raycaster *rc)
 	}
 	return (0);
 }
-
+/**
+ * raycaster - Raycaster main function
+ * @sdl: SDL Structure
+ * @rc: raycaster Structure
+ * @sp: Sprites Structure
+ */
 void raycaster(t_sdl *sdl, t_raycaster *rc, t_sprite *sp)
 {
 	SDL_bool done;
@@ -235,7 +255,10 @@ void raycaster(t_sdl *sdl, t_raycaster *rc, t_sprite *sp)
 	SDL_DestroyTexture(sp->texture);
     SDL_FreeSurface(sp->surface);
 }
-
+/**
+ * main - main fuction void
+ * Return: 0 if success
+ */
 int main(void)
 {
 	t_sdl       sdl;
