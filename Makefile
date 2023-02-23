@@ -5,8 +5,12 @@
 SRC		=	./src/main.c	\
 			./src/color.c	\
 			./src/map.c     \
+<<<<<<< HEAD
 			./src/geometry.c\
 			./src/sprites.c
+=======
+			./src/geometry.c
+>>>>>>> 0335b9633db192e5c14555284af2f4703dd9e621
 
 NAME	=	maze
 

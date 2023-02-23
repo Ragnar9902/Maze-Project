@@ -6,7 +6,7 @@ SDL_Color convert_color(int hexa_value)
 
 	color.r = ((hexa_value >> 16) & 0xFF);
 	color.g = ((hexa_value >> 8) & 0xFF);
-	color.b = ((hexa_value)&0xFF);
+	color.b = ((hexa_value) & 0xFF);
 	return (color);
 }
 
@@ -30,6 +30,7 @@ SDL_Color select_wall_color(int map_x, int map_y)
 int hexa_wall_color(int map)
 {
 	int color;
+
 	if (map == 1)
 		color = RED;
 	else if (map == 2)

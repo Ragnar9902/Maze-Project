@@ -1,26 +1,5 @@
 #include "raycaster.h"
 
-int cuadran(double dirx, double diry)
-{
-	if ((dirx >= 0) & (diry >= 0))
-	{
-		return (1);
-	}
-	if ((dirx > 0) & (diry < 0))
-	{
-		return (2);
-	}
-	if ((dirx <= 0) & (diry <= 0))
-	{
-		return (3);
-	}
-	if ((dirx < 0) & (diry > 0))
-	{
-		return (4);
-	}
-	return (0);
-}
-
 int init(t_sdl *sdl, t_raycaster *rc)
 {
 	sdl->window = NULL;
@@ -39,7 +18,8 @@ int init(t_sdl *sdl, t_raycaster *rc)
 		fprintf(stderr, "SDL initialization failed (%s)\n", SDL_GetError());
 		return (-1);
 	}
-	if (SDL_CreateWindowAndRenderer(WIN_X, WIN_Y, 0, &sdl->window, &sdl->renderer) != 0)
+	if (SDL_CreateWindowAndRenderer(WIN_X, WIN_Y, 0, &sdl->window,
+									&sdl->renderer) != 0)
 	{
 		fprintf(stderr, "Window creation failed (%s)\n", SDL_GetError());
 		return (-1);
@@ -51,7 +31,7 @@ void initial_calc(t_raycaster *rc, int x)
 {
 	double camera_x;
 
-	camera_x = 2 * x / (double)(WIN_X)-1;
+	camera_x = 2 * x / (double)(WIN_X) - 1;
 	rc->ray_dir_x = rc->player_dir_x + rc->player_plane_x * camera_x;
 	rc->ray_dir_y = rc->player_dir_y + rc->player_plane_y * camera_x;
 	rc->map_x = (int)(rc->player_pos_x);
@@ -109,9 +89,13 @@ void calc_wall_height(t_raycaster *rc)
 	int line_height;
 
 	if (rc->side == 0)
-		rc->perp_wall_dist = (rc->map_x - rc->player_pos_x + (1 - rc->step_x) / 2) / rc->ray_dir_x;
+		rc->perp_wall_dist = (rc->map_x - rc->player_pos_x +
+							  (1 - rc->step_x) / 2) /
+							 rc->ray_dir_x;
 	else
-		rc->perp_wall_dist = (rc->map_y - rc->player_pos_y + (1 - rc->step_y) / 2) / rc->ray_dir_y;
+		rc->perp_wall_dist = (rc->map_y - rc->player_pos_y +
+							  (1 - rc->step_y) / 2) /
+							 rc->ray_dir_y;
 	line_height = (int)(WIN_Y / rc->perp_wall_dist);
 	rc->draw_start = -line_height / 2 + WIN_Y / 2;
 	if (rc->draw_start < 0)
@@ -134,66 +118,91 @@ int handle_events(t_raycaster *rc)
 	double oldDirX;
 	double oldPlaneX;
 	const Uint8 *keyboard_state_array = SDL_GetKeyboardState(NULL);
+
 	while (SDL_PollEvent(&event))
 	{
 
 		if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP)
 		{
-			// Move centerpoint of rotation for one of the trees:
-			if (keyboard_state_array[SDL_SCANCODE_W] && !(keyboard_state_array[SDL_SCANCODE_S]))
+			/** Move centerpoint of rotation for one of the trees: */
+			if (keyboard_state_array[SDL_SCANCODE_W] &&
+				!(keyboard_state_array[SDL_SCANCODE_S]))
 			{
-				if (worldMap[(int)(rc->player_pos_x + rc->player_dir_x * MV_SPEED)][(int)(rc->player_pos_y)] == 0)
+				if (worldMap[(int)(rc->player_pos_x + rc->player_dir_x * MV_SPEED)]
+							[(int)(rc->player_pos_y)] == 0)
 					rc->player_pos_x += rc->player_dir_x * MV_SPEED;
-				if (worldMap[(int)(rc->player_pos_x)][(int)(rc->player_pos_y + rc->player_dir_y * MV_SPEED)] == 0)
+				if (worldMap[(int)(rc->player_pos_x)][(int)(rc->player_pos_y +
+															rc->player_dir_y * MV_SPEED)] == 0)
 					rc->player_pos_y += rc->player_dir_y * MV_SPEED;
 			}
-			else if (!keyboard_state_array[SDL_SCANCODE_W] && keyboard_state_array[SDL_SCANCODE_S])
+			else if (!keyboard_state_array[SDL_SCANCODE_W] &&
+					 keyboard_state_array[SDL_SCANCODE_S])
 			{
-				if (worldMap[(int)(rc->player_pos_x - rc->player_dir_x * MV_SPEED)][(int)(rc->player_pos_y)] == 0)
+				if (worldMap[(int)(rc->player_pos_x - rc->player_dir_x * MV_SPEED)]
+							[(int)(rc->player_pos_y)] == 0)
 					rc->player_pos_x -= rc->player_dir_x * MV_SPEED;
-				if (worldMap[(int)(rc->player_pos_x)][(int)(rc->player_pos_y - rc->player_dir_y * MV_SPEED)] == 0)
+				if (worldMap[(int)(rc->player_pos_x)][(int)(rc->player_pos_y -
+															rc->player_dir_y * MV_SPEED)] == 0)
 					rc->player_pos_y -= rc->player_dir_y * MV_SPEED;
 			}
 
-			if (keyboard_state_array[SDL_SCANCODE_D] && !keyboard_state_array[SDL_SCANCODE_A])
+			if (keyboard_state_array[SDL_SCANCODE_D] &&
+				!keyboard_state_array[SDL_SCANCODE_A])
 			{
 				double newX_dir = 0;
 				double newY_dir = 0;
+
 				newY_dir = rc->player_dir_x;
 				newX_dir = -rc->player_dir_y;
-				if (worldMap[(int)(rc->player_pos_x - newX_dir * MV_SPEED)][(int)(rc->player_pos_y)] == 0)
+				if (worldMap[(int)(rc->player_pos_x - newX_dir * MV_SPEED)]
+							[(int)(rc->player_pos_y)] == 0)
 					rc->player_pos_x -= newX_dir * MV_SPEED;
-				if (worldMap[(int)(rc->player_pos_x)][(int)(rc->player_pos_y - newY_dir * MV_SPEED)] == 0)
+				if (worldMap[(int)(rc->player_pos_x)][(int)(rc->player_pos_y -
+															newY_dir * MV_SPEED)] == 0)
 					rc->player_pos_y -= newY_dir * MV_SPEED;
 			}
-			else if (!keyboard_state_array[SDL_SCANCODE_D] && keyboard_state_array[SDL_SCANCODE_A])
+			else if (!keyboard_state_array[SDL_SCANCODE_D] &&
+					 keyboard_state_array[SDL_SCANCODE_A])
 			{
 				double newX_dir = 0;
 				double newY_dir = 0;
+
 				newY_dir = -rc->player_dir_x;
 				newX_dir = rc->player_dir_y;
-				if (worldMap[(int)(rc->player_pos_x - newX_dir * MV_SPEED)][(int)(rc->player_pos_y)] == 0)
+				if (worldMap[(int)(rc->player_pos_x - newX_dir * MV_SPEED)]
+							[(int)(rc->player_pos_y)] == 0)
 					rc->player_pos_x -= newX_dir * MV_SPEED;
-				if (worldMap[(int)(rc->player_pos_x)][(int)(rc->player_pos_y - newY_dir * MV_SPEED)] == 0)
+				if (worldMap[(int)(rc->player_pos_x)][(int)(rc->player_pos_y -
+															newY_dir * MV_SPEED)] == 0)
 					rc->player_pos_y -= newY_dir * MV_SPEED;
 			}
-			if (keyboard_state_array[SDL_SCANCODE_RIGHT] && !keyboard_state_array[SDL_SCANCODE_LEFT])
+			if (keyboard_state_array[SDL_SCANCODE_RIGHT] &&
+				!keyboard_state_array[SDL_SCANCODE_LEFT])
 			{
 				oldDirX = rc->player_dir_x;
-				rc->player_dir_x = rc->player_dir_x * cos(-ROT_SPEED) - rc->player_dir_y * sin(-ROT_SPEED);
-				rc->player_dir_y = oldDirX * sin(-ROT_SPEED) + rc->player_dir_y * cos(-ROT_SPEED);
+				rc->player_dir_x = rc->player_dir_x * cos(-ROT_SPEED) -
+								   rc->player_dir_y * sin(-ROT_SPEED);
+				rc->player_dir_y = oldDirX * sin(-ROT_SPEED) +
+								   rc->player_dir_y * cos(-ROT_SPEED);
 				oldPlaneX = rc->player_plane_x;
-				rc->player_plane_x = rc->player_plane_x * cos(-ROT_SPEED) - rc->player_plane_y * sin(-ROT_SPEED);
-				rc->player_plane_y = oldPlaneX * sin(-ROT_SPEED) + rc->player_plane_y * cos(-ROT_SPEED);
+				rc->player_plane_x = rc->player_plane_x * cos(-ROT_SPEED) -
+									 rc->player_plane_y * sin(-ROT_SPEED);
+				rc->player_plane_y = oldPlaneX * sin(-ROT_SPEED) +
+									 rc->player_plane_y * cos(-ROT_SPEED);
 			}
-			else if (!keyboard_state_array[SDL_SCANCODE_RIGHT] && keyboard_state_array[SDL_SCANCODE_LEFT])
+			else if (!keyboard_state_array[SDL_SCANCODE_RIGHT] &&
+					 keyboard_state_array[SDL_SCANCODE_LEFT])
 			{
 				oldDirX = rc->player_dir_x;
-				rc->player_dir_x = rc->player_dir_x * cos(ROT_SPEED) - rc->player_dir_y * sin(ROT_SPEED);
-				rc->player_dir_y = oldDirX * sin(ROT_SPEED) + rc->player_dir_y * cos(ROT_SPEED);
+				rc->player_dir_x = rc->player_dir_x * cos(ROT_SPEED) -
+								   rc->player_dir_y * sin(ROT_SPEED);
+				rc->player_dir_y = oldDirX * sin(ROT_SPEED) +
+								   rc->player_dir_y * cos(ROT_SPEED);
 				oldPlaneX = rc->player_plane_x;
-				rc->player_plane_x = rc->player_plane_x * cos(ROT_SPEED) - rc->player_plane_y * sin(ROT_SPEED);
-				rc->player_plane_y = oldPlaneX * sin(ROT_SPEED) + rc->player_plane_y * cos(ROT_SPEED);
+				rc->player_plane_x = rc->player_plane_x * cos(ROT_SPEED) -
+									 rc->player_plane_y * sin(ROT_SPEED);
+				rc->player_plane_y = oldPlaneX * sin(ROT_SPEED) +
+									 rc->player_plane_y * cos(ROT_SPEED);
 			}
 		}
 		if (event.type == SDL_QUIT)
@@ -227,7 +236,7 @@ void raycaster(t_sdl *sdl, t_raycaster *rc, t_sprite *sp)
     SDL_FreeSurface(sp->surface);
 }
 
-int main()
+int main(void)
 {
 	t_sdl       sdl;
 	t_raycaster rc;
