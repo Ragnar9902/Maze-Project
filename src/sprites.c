@@ -1,23 +1,25 @@
 #include "raycaster.h"
 
-void init_sprite(t_sdl *sdl,t_sprite * sp)
+int init_sprite(t_sdl *sdl,t_sprite * sp)
 {
+    SDL_Surface *surface;
+    SDL_Texture *texture;
   // Load sprite image
-    if (!sp->texture) {
-        sp->surface = IMG_Load("/home/jesus/Maze-Project/src/sprite.png");
-        sp->texture = SDL_CreateTextureFromSurface(sdl->renderer, sp->surface);
-    }
-    if (!sp->surface) {
+    surface = IMG_Load("/home/jesus/Maze-Project/src/sprite.png");
+    texture = SDL_CreateTextureFromSurface(sdl->renderer, surface);
+    
+    if (!surface) {
         printf("Failed to load sprite image: %s\n", IMG_GetError());
-        return;
+        return (1);
     }
 
     // Convert sprite image to texture
-    if (!sp->texture) {
+    if (!texture) {
         printf("Failed to create texture from sprite surface: %s\n", SDL_GetError());
-        return;
+        return (1);
     }
-
+    sp->surface = surface;
+    sp->texture = texture;
     // Set destination rectangle for sprite
     //SDL_Rect destRect = { sp->pos_x, sp->pos_y, 100, 100 };
 
@@ -36,8 +38,9 @@ void init_sprite(t_sdl *sdl,t_sprite * sp)
 	sp->dir_x = 0;
 	sp->dir_y = 1;
 	sp->id    = 0;
-    sp->width = 50;
-    sp->height = 50;
+    sp->width = 0.5;
+    sp->height = 0.5;
+    return (0);
 }
 
 int calculate_distance(t_sprite *sp, t_raycaster *rc)
@@ -49,43 +52,35 @@ int calculate_distance(t_sprite *sp, t_raycaster *rc)
 }
 void draw_sprite(t_sdl *sdl, t_raycaster *rc, t_sprite *sp)
 {
-    int spriteDistance = (int)sqrt(pow(sp->pos_x, 2) + pow(sp->pos_y, 2));
-    double transformZ = (rc->player_plane_x * (sp->pos_y - rc->player_pos_y) - rc->player_plane_y * (sp->pos_x - rc->player_pos_x)) / spriteDistance;
-    transformZ *= cos(atan2(rc->player_dir_x , rc->player_dir_y) - atan2(sp->pos_y - rc->player_pos_y, sp->pos_x - rc->player_pos_x));
-    double spriteX = sp->pos_x - rc->player_pos_x;
-    double spriteY = sp->pos_y - rc->player_pos_y;
-    double invDet = 1.0 / (rc->player_plane_x * rc->player_dir_y - rc->player_dir_x * rc->player_plane_y);
-    double transformX = invDet * (rc->player_dir_y * spriteX - rc->player_dir_x * spriteY);
-    //double transformY = invDet * (-rc->player_plane_y * spriteX + rc->player_plane_x * spriteY);
-    double spriteScreenX = (sdl->width / 2) * (1 + transformX / transformZ);
+   
+    int sprite_x = sp->pos_x;
+    int sprite_y = sp->pos_y;
+    int sprite_width = sp->width;
+    int sprite_height = sp->height;
+    int camera_x = rc->player_pos_x;
+    int camera_y = rc->player_pos_y;
+    int camera_angle = atan2(rc->player_pos_x, rc->player_pos_y);
+    int screen_width = sdl->width;
+    int screen_height = sdl->height;
 
-    // Calculate width of the sprite in the world
-    //int spriteWidth = sp->width;
-
-    // Calculate width of the sprite on the screen
-    //int screenWidth = sdl->width;
-    int spriteScreenHeight = abs((int)(sdl->height / (transformZ))) / 50;
-    int spriteScreenWidth = abs((int)(sdl->height / (transformZ))) / 50;
-    int spriteScreenStartX = (int)(-spriteScreenWidth / 2 + spriteScreenX);
-    //int spriteScreenEndX = (int)(spriteScreenWidth / 2 + spriteScreenX);
-    int spriteScreenStartY = (int)(-spriteScreenHeight / 2 + sdl->height / 2);
-    //int spriteScreenEndY = (int)(spriteScreenHeight / 2 + sdl->height / 2);
-    //double distance_to_object = spriteDistance * cos(atan2(rc->player_dir_x , rc->player_dir_y) - atan2(sp->pos_y - rc->player_pos_y, sp->pos_x - rc->player_pos_x));
-    //double vertical_angle = atan2(0, sqrt(rc->player_dir_x * rc->player_dir_x + rc->player_dir_y * rc->player_dir_y));
-    //double depth = distance_to_object * cos(vertical_angle) * 5;
-    // Draw the sprite to the screen
-    // Set destination rectangle for sprite
-    SDL_Rect destRect = { spriteScreenStartX, spriteScreenStartY, 100, 100 };
-
-    // Render sprite to screen
-    if (SDL_RenderCopy(sdl->renderer, sp->texture, NULL, &destRect) < 0) {
-        printf("Failed to render sprite: %s\n", SDL_GetError());
-        SDL_DestroyTexture(sp->texture);
-        SDL_FreeSurface(sp->surface);
-        return;
-    }
-
-    // Update screen
-    SDL_RenderPresent(sdl->renderer);
+    // Calculate the distance and angle between the camera and the sprite
+    int delta_x = sprite_x - camera_x;
+    int delta_y = sprite_y - camera_y;
+    double distance = sqrt(delta_x * delta_x + delta_y * delta_y);
+    double sprite_angle = atan2(delta_y, delta_x) - camera_angle;
     
+    // Calculate the size of the sprite on the screen based on its distance from the camera
+    int sprite_screen_width = (int)(screen_width / distance * sprite_width);
+    int sprite_screen_height = (int)(screen_height / distance * sprite_height);
+    
+    // Calculate the position of the sprite on the screen based on its angle and size
+    int sprite_screen_x = (int)((screen_width / 2) * (1 + sprite_angle / (M_PI / 2)) - sprite_screen_width / 2);
+    int sprite_screen_y = (int)((screen_height / 2) - sprite_screen_height / 2);
+    
+    // Create a rectangle to represent the sprite on the screen
+    SDL_Rect sprite_rect = { sprite_screen_x, sprite_screen_y, sprite_screen_width, sprite_screen_height };
+    
+    // Draw the sprite to the screen
+    SDL_RenderCopyEx(sdl->renderer, sp->texture, NULL, &sprite_rect, sprite_angle * 180 / M_PI, NULL, SDL_FLIP_NONE);
 }
+

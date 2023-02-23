@@ -105,7 +105,7 @@ void draw_vert_line(t_sdl *sdl, t_raycaster *rc, int x);
 void miniMap(t_sdl *sdl, int x, int y, t_raycaster *rc);
 int hexa_wall_color(int map);
 void draw_triangle(t_sdl *sdl, int x, int y, size_t h, int w, double dir, int hexa_code);
-void init_sprite(t_sdl *sdl,t_sprite * sp);
+int init_sprite(t_sdl *sdl,t_sprite * sp);
 void draw_sprite(t_sdl *sdl, t_raycaster *rc, t_sprite *sp);
 
 

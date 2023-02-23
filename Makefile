@@ -16,7 +16,7 @@ RM		=	rm -f
 
 OBJ		=	$(SRC:.c=.o)
 
-CFLAGS	=	-O2 -W -Wall -Wextra -Werror
+CFLAGS	=	-O2 -W -Wall -Wextra -Werror -g
 CFLAGS	+=	-I./hds/
 
 LDLIBS	=	-lSDL2 -lm -lSDL2_image

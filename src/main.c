@@ -218,7 +218,6 @@ void raycaster(t_sdl *sdl, t_raycaster *rc, t_sprite *sp)
 		}
 
 		miniMap(sdl, MINI_MAP_X, MINI_MAP_Y, rc);
-		init_sprite(sdl, sp);
 		draw_sprite(sdl, rc, sp);
 		render_frame(sdl);
 		if (handle_events(rc) != 0)
@@ -235,6 +234,8 @@ int main()
 	t_sprite    sprite;
 
 	if (init(&sdl, &rc) != 0)
+		return (-1);
+	if (init_sprite(&sdl, &sprite) != 0)
 		return (-1);
 	raycaster(&sdl, &rc, &sprite);
 	if (sdl.renderer)
