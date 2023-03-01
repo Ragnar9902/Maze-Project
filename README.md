@@ -65,8 +65,8 @@ This Raycaster uses the following inputs:
 
 - `Up` Move forward
 - `Down` Move backward
-- `Left` Turn left
-- `Right` Turn right
+- `a` Turn left
+- `d` Turn right
 
 ## Team Members:
 
